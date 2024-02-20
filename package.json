@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-hello-world",
+  "version": "1.0.0",
+  "description": "Hello World nodejs",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "test": "echo \"no test specified\" && exit 0",
+    "build": "babel src -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solankiarpan/nodejs-hello-world.git"
+  },
+  "author": "Arpan Solanki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solankiarpan/nodejs-hello-world/issues"
+  },
+  "homepage": "https://github.com/solankiarpan/nodejs-hello-world#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9"
+  }
+}
