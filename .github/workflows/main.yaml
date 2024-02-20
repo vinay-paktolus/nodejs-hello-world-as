@@ -29,6 +29,8 @@ jobs: #<-- start the jobs encapsulation
         uses: actions/setup-nodejs@v4
         with:
            node-version: 14
+      - name: Run install
+        run: npm install
       - name: Install depedencies
         run: npm ci
       - name: Run tests
