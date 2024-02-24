@@ -1,4 +1,5 @@
 name: Publish to GitHub Packages
+
 on: 
   push:
     branches: [main]
@@ -9,21 +10,29 @@ jobs:
     steps:
        - name: Checkout Code
          uses: actions/checkout@v2
+         
        - name: Use Node.js
          uses: actions/setup-node@v4
          with:
-           node-version: 20
+           node-version: '20'
+           registry-url: 'https://npm.pkg.github.com/'
+           scope: '@solankiarpan'
+
        - name: Install dependencies
          run: npm install
+         
        - name: Build package
          run: npm run build
+         
        - name: Package the App 
          run: npm pack
+         
        - name: Upload package
          uses: actions/upload-artifact@v2 
          with:
            name: package
-           path: "*.tgz" 
+           path: "*.tgz"
+           
   publish:
     runs-on: ubuntu-latest
     name: "Publish to GitHub Packages" 
@@ -33,13 +42,14 @@ jobs:
         uses: actions/download-artifact@v2 
         with:
           name: package
-      - name: Set up Node.js and publish 
+          
+      - name: Set up Node.js
         uses: actions/setup-node@v4 
         with:
-          node-version: 20
-          registry-url: https://npm.pkg.github.com/ 
-          scope: "@solankiarpan"
-      - run: echo "registry=https://npm.pkg.github.com/@solankiarpan" >> .npmrc
-      - run: npm publish $(ls *.tgz) 
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@solankiarpan'
+          
+      - run: npm publish $(ls *.tgz) --access public
         env:
-              NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
