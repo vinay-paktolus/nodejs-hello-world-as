@@ -1,6 +1,7 @@
 {
-  "name": "nodejs-hello-world",
+  "name": "@solankiarpan/nodejs-hello-world",
   "version": "1.0.0",
+  "private": false,
   "description": "Hello World nodejs",
   "main": "dist/index.js",
   "scripts": {
