@@ -32,6 +32,9 @@ jobs:
            
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     name: "Publish to GitHub Packages" 
     needs: [build_and_package]
     steps:
