@@ -1,56 +1,31 @@
-name: Publish to GitHub Packages
+name: Build and Publish NPM Package
 
-on: 
+on:
   push:
-    branches: [main]
-    
-jobs: 
-  build_and_package:
-    runs-on: ubuntu-latest 
-    steps:
-       - name: Checkout Code
-         uses: actions/checkout@v4
-         
-       - name: Use Node.js
-         uses: actions/setup-node@v4
-         with:
-           node-version: '20'
-           registry-url: 'https://npm.pkg.github.com/'
-           scope: '@solankiarpan'
+    branches:
+      - main # Trigger the workflow on push events to the main branch
 
-       - name: Install dependencies
-         run: npm install
-         
-       - name: Build package
-         run: npm run build
-         
-       - name: Package the App 
-         run: npm pack
-         
-       - name: Upload package
-         uses: actions/upload-artifact@v2 
-         with:
-           name: package
-           path: "*.tgz"
-           
-  publish:
+jobs:
+  build:
     runs-on: ubuntu-latest
-    name: "Publish to GitHub Packages" 
-    needs: [build_and_package]
+
     steps:
-      - name: Download package
-        uses: actions/download-artifact@v2 
+      - uses: actions/checkout@v2 # Checks-out your repository under $GITHUB_WORKSPACE
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          name: package
+          node-version: '14' # Specify the Node.js version
+          registry-url: 'https://npm.pkg.github.com' # Set the NPM registry URL
+          scope: '@solankiarpan' # Set the scope to your GitHub username or organization
           
-      - name: Set up Node.js
-        uses: actions/setup-node@v4 
-        with:
-          node-version: '20'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@solankiarpan'
-      - run: echo "registry=https://npm.pkg.github.com/@solankiarpan" >> .npmrc
-          
-      - run: npm publish $(ls *.tgz) 
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build # Replace with your build command
+
+      - name: Publish
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}} # Use the GITHUB_TOKEN secret to authenticate
