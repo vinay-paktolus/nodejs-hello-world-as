@@ -1,5 +1,5 @@
 {
-  "name": "@solankiarpan/nodejs-hello-world",
+  "name": "nodejs-hello-world",
   "version": "1.0.0",
   "private": false,
   "description": "Hello World nodejs",
