@@ -3,7 +3,7 @@ on: [push]
 
 jobs: #<-- start the jobs encapsulation
   build: #<--start the build job encapsulation
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps: # <-- start of steps encapsulation with 'build' job
       - name: Checkout code
         uses: actions/checkout@v4
