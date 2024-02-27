@@ -3,7 +3,8 @@ const { Client } = require('pg'); const pgclient = new Client({
     password: 'postgres',
     database: 'postgres'
 }); pgclient.connect();
-pgclient.query('SELECT NOW()', (err, res) => { if (err) throw err
+pgclient.query('SELECT NOW()', (err, res) => { 
+if (err) throw err
 console.log(res)
 pgclient.end()
 });
