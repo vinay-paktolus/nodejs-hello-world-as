@@ -7,11 +7,15 @@ const pgclient = new Client({
     password: 'postgres',
     database: 'postgres'
 });
-
+console.log("hello");
 pgclient.connect();
+
+console.log(pgclient.connect());
 
 pgclient.query('SELECT NOW()', (err, res) => {
     if (err) throw err
     console.log(res)
     pgclient.end()
 });
+
+console.log("at the end")
