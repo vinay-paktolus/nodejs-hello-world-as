@@ -23,6 +23,9 @@
     "url": "https://github.com/solankiarpan/nodejs-hello-world/issues"
   },
   "homepage": "https://github.com/solankiarpan/nodejs-hello-world#readme",
+  "dependencies": {
+    "pg": "^7.12.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.23.9",
     "@babel/core": "^7.23.9",
