@@ -1,0 +1,28 @@
+name: Postgres Service Example
+on: 
+  push:
+    branches: 
+        - main
+jobs: 
+  container-job:
+   runs-on: ubuntu-latest 
+   container:
+     image: node:20.11.1-slim
+   services: 
+     postgres:
+      image: postgres:10.8 
+      env:
+        POSTGRES_USER: postgres 
+        POSTGRES_PASSWORD: postgres 
+        POSTGRES_DB: postgres
+      ports:
+        - 5432:5432
+      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+   steps:
+    - uses: actions/checkout@v1
+    - run: npm install
+    - run: npm run build
+    - run: node client.js
+      env:
+        POSTGRES_HOST: postgres
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
