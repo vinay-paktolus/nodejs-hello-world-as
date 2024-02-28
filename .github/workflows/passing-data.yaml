@@ -15,10 +15,7 @@ jobs:
     needs: job1
     runs-on: ubuntu-latest
     steps:
-    - name: Download data artifactor
-      uses: actions/download-artifact@v2
-      with:
+    - name: Delete Artifact
+      uses: geekyeggo/delete-artifact@v4
+      with:  
         name: data-artifact
-        path: data/
-    - name: Use data in job2
-      run: cat data/data.txt
