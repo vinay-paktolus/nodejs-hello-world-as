@@ -20,6 +20,13 @@ jobs: #<-- start the jobs encapsulation
       - name: Deploy the application
         run: npm run deploy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Archive npm fail logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs
+        
     #<-- end of steps encapsulation within 'build' job
   #<--end of 'build' job encapulation
 #end of job encpsulation
