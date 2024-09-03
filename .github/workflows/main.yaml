@@ -1,29 +1,32 @@
 name: node.js CI
 on: [push]
 
-jobs: #<-- statrt the jos encapsulation
-  build: #<-- start the build job encapsulation
+jobs: #<-- start the jobs encapsulation
+  build: #<--start the build job encapsulation
     runs-on: ubuntu-latest
-    steps: # <-- start of step encapsulation with 'build' job
+    steps: # <-- start of steps encapsulation with 'build' job
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Setup node.js
         uses: actions/setup-node@v4
         with:
           node-version: 14
+      - name: Run install
+        run: npm install
       - name: Install dependencies
         run: npm ci
       - name: build
         run: npm run build
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v4
-      - name: setup node.js
-        uses: action setup-nodejs@v4
+      - name: Deploy the application
+        run: npm run deploy
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Archive npm fail logs
+        uses: actions/upload-artifact@v2
+        if: failure()
         with:
-           node-version: 14
-      - name: Install dependencies
-        run: npm test
+          name: npm-logs
+          path: ~/.npm/_logs
+        
+    #<-- end of steps encapsulation within 'build' job
+  #<--end of 'build' job encapulation
+#end of job encpsulation
