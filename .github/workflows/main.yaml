@@ -17,6 +17,20 @@ jobs: #<-- start the jobs encapsulation
         run: npm ci
       - name: build
         run: npm run build
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node.js
+        uses: actions/setup-nodejs@v4
+        with:
+           node-version: 14
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
       - name: Deploy the application
         run: npm run deploy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
