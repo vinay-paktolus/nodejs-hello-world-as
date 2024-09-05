@@ -1,32 +1,25 @@
-name: node.js CI
-on: [push]
+name: Matrix example
 
-jobs: #<-- start the jobs encapsulation
-  build: #<--start the build job encapsulation
-    runs-on: ubuntu-latest
-    steps: # <-- start of steps encapsulation with 'build' job
-      - name: Checkout code
+on:
+  push:
+    branches:
+      - main
+     
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+        node: [10, 20]
+    runs-on: ${{ matrix.os }}  # 'matrix' should be lowercase
+    steps:
+      - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 14
-      - name: Run install
-        run: npm install
+          node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: npm ci
-      - name: build
+        run: npm install
+      - name: build the app
         run: npm run build
-      - name: Deploy the application
-        run: npm run deploy
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      - name: Archive npm fail logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: npm-logs
-          path: ~/.npm/_logs
-        
-    #<-- end of steps encapsulation within 'build' job
-  #<--end of 'build' job encapulation
-#end of job encpsulation
